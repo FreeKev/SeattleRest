@@ -36,7 +36,10 @@ router.delete('/:id', function(req, res){
 });
 
 router.get('/new', function(req, res){
-  res.render('articles/new');
+  // res.render('articles/new');
+  db.author.findAll().then(function(authors){
+    res.render('articles/new', {authors: authors});
+  });
 });
 
 

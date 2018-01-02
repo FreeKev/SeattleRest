@@ -3,6 +3,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var ejsLayouts = require('express-ejs-layouts');
 var app = express();
+// var db = require('./models');
 
 //Set and Use statements to set set up middleware
 app.set('view engine', 'ejs');
@@ -12,6 +13,7 @@ app.use(express.static(__dirname + '/public/'));
 
 //Include controller
 app.use('/articles', require('./controllers/articles'));
+app.use('/authors', require('./controllers/authors'));
 
 //Routes
 app.get('/', function(req, res){
