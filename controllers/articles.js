@@ -54,8 +54,6 @@ router.get('/:id', function(req, res){
   });
 });
 
-
-
 //For test data
 // db.article.create({
 //   title: 'Testing Title',

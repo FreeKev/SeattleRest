@@ -2,6 +2,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var ejsLayouts = require('express-ejs-layouts');
+var moment = require('moment');
 var app = express();
 // var db = require('./models');
 
@@ -10,6 +11,10 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(ejsLayouts);
 app.use(express.static(__dirname + '/public/'));
+app.use(function(req, res, next){
+  res.locals.moment = moment;
+  next();
+})
 
 //Include controller
 app.use('/articles', require('./controllers/articles'));

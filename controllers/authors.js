@@ -25,8 +25,14 @@ router.get('/new', function(req, res){
 
 
 router.get('/:id', function(req, res){
-  console.log('single author page, id is', req.params.id);
-  res.send('single author page up');
+  // console.log('single author page, id is', req.params.id);
+  // res.send('single author page up');
+  db.author.findOne({
+    where: {id: req.params.id},
+    include: [db.article]
+  }).then(function(author){
+    res.render('authors/single', {author: author});
+  });
 });
 
 

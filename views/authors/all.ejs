@@ -2,6 +2,7 @@
 
 <% authors.forEach(function(a) { %>
   <div>
-    <%= a.firstname %>
+    <a href="/authors/<%=a.id%>">
+    <%= a.firstname %> <%= a.lastname %>
   </div>
 <% }); %>

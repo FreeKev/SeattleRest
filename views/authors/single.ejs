@@ -1,0 +1,22 @@
+<h2 class="text-center">
+  About <%= author.firstname %> <%= author.lastname %>
+</h2>
+<div>
+  <%= author.bio %>
+</div>
+<div>
+  <%= author.firstname %> joined Seattle Restaurants Blog
+  <%= moment(author.createdAt).calendar() %>
+</div>
+<p>
+  <!-- <%= author.firstname %> was born on <%= author.dob %> -->
+  <!-- <%= author.firstname %>, born <%= moment(author.dob).calendar() %> -->
+</p>
+<h3>Articles which <%= author.firstname %> has written</h3>
+<% author.articles.forEach(function(item){ %>
+  <h4>
+    <a href="/articles/<%=item.id%>">
+      <%= item.title %>
+    </a>
+  </h4>
+<% }); %>

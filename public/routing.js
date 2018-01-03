@@ -1,4 +1,4 @@
-console.log('Hi from routing.js');
+// console.log('Hi from routing.js');
 
 $('.delete-link').click(function(e){
   e.preventDefault();
