@@ -1,5 +1,37 @@
 <h2 class="text-center"><%= result.title %></h2>
-<em> By <%= result.author.firstname %></em>
+<em> By <%= result.author.firstname %> <%= result.author.lastname %></em>
 <p>
   <%= result.content %>
 </p>
+<div>
+  <% result.tags.forEach(function(t){ %>
+    <a href="/tags/<%= t.id %>">#<%= t.content %></a>
+  <% }); %>
+<em>Written on <%= moment(result.createdAt).calendar() %></em>
+<hr>
+<h3>Add Your Comments</h3>
+<form method="post" action="/comments">
+  <div class="form-group">
+    <label>Content</label>
+    <textarea name="content" class="form-control"></textarea>
+  </div>
+  <div class="form-group">
+    <label>Name</label>
+    <input type="text" placeholder="your name" class="form-control" name="name" required>
+  </div>
+  <input type="hidden" name="articleId" value="<%=result.id%>">
+  <input type="submit" class="btn btn-info">
+</form>
+<hr>
+<% if(result.comments && result.comments.length > 0) { %>
+<h3>Previous Comments</h3>
+<% result.comments.forEach(function(c){ %>
+  <div>
+    <p><%= c.content %></p>
+    <em>-<%= c.name %> (<%= moment(c.createdAt).calendar() %>)</em>
+  </div>
+  <br>
+<% }); %>
+<% } else { %>
+  <h3>Be the first to comment on this article</h3>
+  <% } %>

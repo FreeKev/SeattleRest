@@ -19,6 +19,8 @@ app.use(function(req, res, next){
 //Include controller
 app.use('/articles', require('./controllers/articles'));
 app.use('/authors', require('./controllers/authors'));
+app.use('/comments', require('./controllers/comments'));
+app.use('/tags', require('./controllers/tags'));
 
 //Routes
 app.get('/', function(req, res){

@@ -1,4 +1,5 @@
 var express = require('express');
+var async = require('async');
 var router = express.Router();
 var db = require('../models');
 
@@ -14,9 +15,35 @@ router.get('/', function(req, res){
 });
 
 router.post('/', function(req, res){
+  var tags = [];
+  if(req.body.tags){
+    tags = req.body.tags.split(',');
+  }
+
   db.article.create(req.body).then(function(createdArticle){
-    res.redirect('/articles/' + createdArticle.id);
+    if(tags.length > 0){
+      // do tag stuff
+      async.forEach(tags, function(t, callback){
+        //Add tag to tag table
+        db.tag.findOrCreate({
+          where: {content: t.trim()}
+        }).spread(function(tag, wasCreated){
+          if(tag){
+            //Adds relationship in join table
+            createdArticle.addTag(tag);
+          }
+          //Calling this function
+          callback(null);
+        })
+      }, function(){
+        //Happens when ALL calls are resolved
+        res.redirect('/articles/' + createdArticle.id);
+      });
+    } else {
+        res.redirect('/articles/' + createdArticle.id);
+    }
   }).catch(function(err){
+    console.log('err', err);
     res.send('uh oh!', err);
   });
 });
@@ -47,7 +74,7 @@ router.get('/:id', function(req, res){
   //was findById
   db.article.findOne({
     where: {id: req.params.id},
-    include: [db.author]
+    include: [db.author, db.comment, db.tag]
   }).then(function(article){
       // console.log(article);
       res.render('articles/single', { result: article });
